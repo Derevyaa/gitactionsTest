@@ -27,7 +27,7 @@ jobs:
         with:
           payload: |
             {
-              "channel": "o2-test-release",
+              "someValue": "testvalue",
               "slackMessage": "${{ env.IOS_SLACK_MESSAGE }}\n${{ env.ANDROID_SLACK_MESSAGE }}"
             }
         env:
