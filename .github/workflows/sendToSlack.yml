@@ -1,0 +1,23 @@
+name: Send to Slack
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify_slack:
+    runs-on: ubuntu-latest
+    name: Send custom JSON data to Slack
+    steps:
+      - name: Send JSON to Slack
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "key": "value",
+              "foo": "bar"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
