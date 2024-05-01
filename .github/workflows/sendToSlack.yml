@@ -21,13 +21,14 @@ jobs:
         run: |
           echo "IOS_SLACK_MESSAGE=New iOS version available on AppCenter: ${{ github.event.inputs.ios_version }}" >> $GITHUB_ENV
           echo "ANDROID_SLACK_MESSAGE=New Android version available on AppCenter: ${{ github.event.inputs.android_version }}" >> $GITHUB_ENV
+
       - name: Send JSON to Slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
           payload: |
             {
-              "channel": "#general",  # Assuming you want to specify a channel
-              "text": "${{ env.IOS_SLACK_MESSAGE }}\n${{ env.ANDROID_SLACK_MESSAGE }}"
+              "channel": "o2-test-release",
+              "slackMessage": "${{ env.IOS_SLACK_MESSAGE }}\n${{ env.ANDROID_SLACK_MESSAGE }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
