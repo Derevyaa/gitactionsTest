@@ -2,20 +2,32 @@ name: Send to Slack
 
 on:
   workflow_dispatch:
+    inputs:
+      ios_version:
+        description: 'iOS AppCenter Version'
+        required: false
+        default: '24.3.1'  # Default iOS version
+      android_version:
+        description: 'Android AppCenter Version'
+        required: false
+        default: '24.3.10'  # Default Android version set here
 
 jobs:
   notify_slack:
     runs-on: ubuntu-latest
     name: Send custom JSON data to Slack
     steps:
+      - name: Set Environment Variables
+        run: |
+          echo "IOS_SLACK_MESSAGE=New iOS version available on AppCenter: ${{ github.event.inputs.ios_version }}" >> $GITHUB_ENV
+          echo "ANDROID_SLACK_MESSAGE=New Android version available on AppCenter: ${{ github.event.inputs.android_version }}" >> $GITHUB_ENV
       - name: Send JSON to Slack
-        id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
           payload: |
             {
-              "key": "value",
-              "foo": "bar"
+              "channel": "#general",  # Assuming you want to specify a channel
+              "text": "${{ env.IOS_SLACK_MESSAGE }}\n${{ env.ANDROID_SLACK_MESSAGE }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
