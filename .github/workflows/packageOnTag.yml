@@ -33,7 +33,7 @@ jobs:
     - name: Create Release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_FA }} # Changed to use PAT_FA
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
@@ -43,9 +43,9 @@ jobs:
     - name: Upload ZIP to Release
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_FA }} # Changed to use PAT_FA
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./${{ env.ZIP_NAME }} # Using the environment variable
+        asset_path: ./${{ env.ZIP_NAME }}
         asset_name: ${{ env.ZIP_NAME }}
         asset_content_type: application/zip
